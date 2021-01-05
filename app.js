@@ -51,6 +51,7 @@ app.post('/vote', requireAuth, async (req, res) => {
   try {
     const voter = await Student.findById(req.user.id);
     const match = await Candidates.findOne({ name: candidate });
+    //  && !voter.voted use do not forget
     if (voter) {
       match.votes++;
       await match.save();
