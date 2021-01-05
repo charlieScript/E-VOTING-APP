@@ -1,0 +1,29 @@
+<%- include('partials/header'); -%>
+<%- include('partials/nav'); -%>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+  <h2 class='text-center m-3'>Results For Departmental Election</h2>
+  <div class='card mx-auto mb-5 mt-1' style='width: 18rem'>
+    <ul class="list-group">
+      <% if (data) { %>
+        <% data.forEach(element => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= element.name %> 
+                <span class="badge bg-primary rounded-pill"> <%= element.votes %> </span>
+            </li>
+        <% }) %>
+      <% } %>
+    </ul>
+  </div>
+  <script>
+    const socket = io('http://localhost:3000')
+    const li = document.querySelectorAll('li')
+    socket.on('data', (data) => {
+      li.forEach((i, index) => {
+        // i.innerHTML = `${data[index].name} <span class="badge bg-primary rounded-pill">${data[index].votes}</span>`
+      })
+      console.log(data)
+      console.log(data[index].votes)
+    })
+  </script>
+
+<%- include('partials/footer'); -%>

@@ -1,0 +1,55 @@
+<%- include('partials/header'); -%>
+<%- include('partials/nav'); -%>
+
+<main class="form-signin">
+  <form action='/register'>
+    <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
+    <label for="inputEmail" class="visually-hidden">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+    <label for="regNo" class="visually-hidden">Registration Number</label>
+    <input type="number" id="regNo" class="form-control" placeholder="Registration Number" required>
+    <div class="regNumber error"></div>
+    <label for="password" class="visually-hidden">Password</label>
+    <input type="password" id="password" class="form-control" placeholder="password" required>
+    <div class="password error"></div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+  </form>
+</main>
+
+<script>
+  const form = document.querySelector('form');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // get values
+    const email = document.querySelector('#inputEmail').value
+    const regNumber = document.querySelector('#regNo').value
+    const password = document.querySelector('#password').value
+    const regNumberError = document.querySelector('.regNumber')
+    const passwordError = document.querySelector('.password')
+
+    try {
+      const res = await fetch('/register', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, number: regNumber, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json()
+      console.log(data)
+      if (data.errors) {
+        regNumberError.textContent = data.errors.regNumber;
+        passwordError.textContent = data.errors.password;
+      }
+      if (data.user) {
+        location.assign('/verify');
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+  });;
+</script>
+
+<%- include('partials/footer'); -%>

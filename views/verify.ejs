@@ -1,0 +1,47 @@
+<%- include('partials/header'); -%>
+<%- include('partials/nav'); -%>
+
+<main class="form-signin">
+  <form action='/verify'>
+  <% if (user) { %>
+      <h3 class='text-center'>Reg-Number: <%= user.regNumber %> </h3>   
+  <% } %>
+    <p>PIN sent your email please keep it safe</p>
+    <h1 class="h3 mb-3 fw-normal text-center">Please enter PIN to vote</h1>
+    <label for="regNo" class="visually-hidden">OTP</label>
+    <input type="number" id="regNo" class="form-control" placeholder="PIN" required>
+    <div class="error"></div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Enter</button>
+  </form>
+</main>
+
+<script>
+  const form = document.querySelector('form');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    // get values
+    const number = document.querySelector('#regNo').value
+    const error = document.querySelector('.error')
+
+    try {
+      const res = await fetch('/verify', { 
+        method: 'POST', 
+        body: JSON.stringify({ number }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json()
+      
+      if(data.isValid) {
+        location.assign('/dashboard')
+      } else {
+        error.textContent = data.message
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+  });
+</script>
+
+<%- include('partials/footer'); -%>
