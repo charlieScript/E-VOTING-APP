@@ -19,9 +19,9 @@
     const li = document.querySelectorAll('li')
     socket.on('data', (data) => {
       li.forEach((i, index) => {
-        if(index === li.length - 1) { 
-          return;
-        }
+        // if(index === li.length - 1) { 
+        //   return;
+        // }
         // i.innerHTML = `${data[index].name} <span class="badge bg-primary rounded-pill">${data[index].votes}</span>`
         i.textContent = `${data[index].name}`
       // console.log(data[index++])
