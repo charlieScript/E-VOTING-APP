@@ -7,7 +7,7 @@
       <% if (data) { %>
         <% data.forEach(element => { %>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <%= element.name %> 
+              <%= element.name %>
                 <span class="badge bg-primary rounded-pill"> <%= element.votes %> </span>
             </li>
         <% }) %>
@@ -17,16 +17,21 @@
   <script>
     const socket = io('http://localhost:3000')
     const li = document.querySelectorAll('li')
+    var a = 0;
     socket.on('data', (data) => {
       li.forEach((i, index) => {
-        // if(index === li.length - 1) { 
-        //   return;
-        // }
-        // i.innerHTML = `${data[index].name} <span class="badge bg-primary rounded-pill">${data[index].votes}</span>`
+        if(index === li.length - 1) {
+          return;
+        }
+        // i.innerHTML = `${data[index].name} <span class="badge bg-primary rounded-pill"> ${data[index].votes}</span>`
         i.textContent = `${data[index].name}`
+        // console.log(i.textContent)
+        // console.log(a++)
       // console.log(data[index++])
-      // console.log(data[index])
-      console.log(data)
+      // console.log(data[index].name)
+          console.log(data[index].name)
+
+      // console.log(data)
       })
     })
   </script>
